@@ -31,13 +31,15 @@ MQTT_TOPIC = "kinetoscan/gps"
 class GPS:
     def __init__(self, port, baudrate):
         logging.info("Opening GPS reader on {0} with data rate {1}".format(port, baudrate))
-        # try:
-        #     self.device = serial.Serial(port, baudrate, timeout = 0)
-        #     time.sleep(0.2)
-        #     self.device.flush()
-        # except serial.SerialException:
-        #     logging.error("(!!!) Couldn't open serial port, check that I have read access to {0}".format(port))
-        #     sys.exit(1)
+
+        try:
+            self.device = serial.Serial(port, baudrate, timeout = 0)
+            time.sleep(0.2)
+            self.device.flush()
+        except serial.SerialException:
+            logging.error("(!!!) Couldn't open serial port, check that I have read access to {0}".format(port))
+            sys.exit(1)
+
         # by default we do not create a GPX file
         self.mqttc = None
         self.nmealog = False
@@ -100,8 +102,8 @@ class GPS:
             self.mqttc.disconnect()
 
     def update(self):
-        # line = self.device.readline()
-        line = "$GPGGA,001933.799,,,,,0,0,,,M,,M,,*47"
+        line = self.device.readline()
+        #line = "$GPGGA,001933.799,,,,,0,0,,,M,,M,,*47"
         gpsmsg = nmea.parse( line ) # parse using library
         logging.debug("parsed entry {0}".format(line) )
         logging.debug("-> as: {0}".format(gpsmsg) )
