@@ -1,0 +1,4 @@
+docopt==0.6.2
+paho-mqtt==1.2
+pynmea2==1.5.3
+pyserial==3.1

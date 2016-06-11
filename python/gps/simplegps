@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+##
+## (cc) 2015 Luis Rodil-Fernandez <root@derfunke.net>
+CLII = """
+Simple Grove GPS reader and parser.
+
+Usage:
+  simplegps [--serial=<port>] [--bauds=<bauds>] [--nmea=<filename>]
+
+Options:
+  -h --help             Show this screen.
+  --serial=<port>       Serial port of GPS sensor [default: /dev/ttyAMA0]
+  --bauds=<bauds>       Data rate of serial communication [default: 9600]
+  --nmea=<filename>     File where GPS NMEA message log will be saved, can be used to convert to GPX track data.
+"""
+import serial, time
+import math
+#import RPi.GPIO as GPIO
+import struct
+import sys
+import pynmea2 as nmea
+from docopt import docopt
+import logging
+
+
+class GPS:
+    def __init__(self, port, baudrate):
+        logging.info("Opening GPS reader on {0} with data rate {1}".format(port, baudrate))
+        try:
+            self.device = serial.Serial(port, baudrate, timeout = 0)
+            time.sleep(0.2)
+            self.device.flush()
+        except serial.SerialException:
+            logging.error("(!!!) Couldn't open serial port, check that I have read access to {0}".format(port))
+            sys.exit(1)
+        # by default we do not create a GPX file
+        self.nmealog = False
+
+    def nmea_log(self, fn):
+        self.nmealog = True
+        self.nmeafilename = fn
+
+    def update(self):
+        line = self.device.readline()
+        time.sleep(0.15)
+        gpsmsg = nmea.parse( line ) # parse using library
+        logging.debug("parsed entry {0}".format(line) )
+        logging.debug("-> as: {0}".format(gpsmsg) )
+        if self.nmealog:
+            with open(self.nmeafilename, 'a+') as f:
+                f.write(line)
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
+    args = docopt(CLII)
+
+    # from pprint import pprint
+    # pprint(args)
+
+    gps = GPS(args['--serial'], int(args['--bauds']))
+    if args['--gpx']:
+        logging.info("Saving NMEA file with path {0}".format(args['--nmea']))
+        gps.gpx_log( args['--nmea'] )
+
+    try:
+        gps.update()
+    except KeyboardInterrupt:
+        print("Good bye!")
+        sys.exit(0)
