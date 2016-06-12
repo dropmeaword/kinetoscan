@@ -48,6 +48,7 @@ class GPS:
             self.mqttc.disconnect()
 
     def update(self):
+        gpsmsg = None
         try:
             line = self.device.readline()
             #line = "$GPGGA,001933.799,,,,,0,0,,,M,,M,,*47"
