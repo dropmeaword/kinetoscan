@@ -6,7 +6,6 @@
 # V0.5 angles method replaced by heading pitch and roll properties
 # V0.4 calibrate method added
 
-import pyb
 from math import sqrt, atan2, asin, degrees, radians
 import datetime
 
