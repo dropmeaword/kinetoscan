@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+##
+## (cc) 2015 Luis Rodil-Fernandez <root@derfunke.net>
+CLII = """
+Get motion information from the kinetoscan sensors and broadcast data via MQTT protocol.
+
+Usage:
+  bcastgps [--mqtt-host=<mqtthost>] [--mqtt-port=<mqttport>] [--serial=<port>] [--bauds=<bauds>] [--nmea=<filename>]
+
+Options:
+  -h --help             Show this screen.
+  --serial=<port>       Serial port of GPS sensor [default: /dev/ttyAMA0]
+  --bauds=<bauds>       Data rate of serial communication [default: 9600]
+  --nmea=<filename>     File where GPS NMEA message log will be saved, can be used to convert to GPX track data.
+"""
+import serial, time
+import math
+#import RPi.GPIO as GPIO
+import struct
+import sys, os
+import paho.mqtt.client as mqtt
+from docopt import docopt
+import logging
+import json
+
+from gps import GPS
+from mqtt import MQTT
+
+MQTT_GPS_TOPIC = "kinetoscan/gps"
+MQTT_IMU_TOPIC = "kinetoscan/imu"
+MQTT_BAR_TOPIC = "kinetoscan/barometer"
+MQTT_FUS_TOPIC = "kinetoscan/heading"
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
+    args = docopt(CLII)
+
+    # from pprint import pprint
+    # pprint(args)
+
+    # generate a unique ID for this client
+    thispid = os.getpid()
+    uid = "kinetoscan_beta_"+str(thispid)
+
+    # start mosquitto client
+    queue = MQTT(uid)
+
+    mqtthost = "127.0.0.1"
+    mqttport = 1883
+    if args['--mqtt-host'] and args['--mqtt-port']:
+        mqtthost = args['--mqtt-host']
+        mqttport = args['--mqtt-port']
+
+    queue.connect(mqtthost, mqttport)
+
+    # initialize GPS sensor
+    gps = GPS(args['--serial'], int(args['--bauds']))
+    if '--gpx' in args:
+        logging.info("Saving NMEA file with path {0}".format(args['--nmea']))
+        gps.gpx_log( args['--nmea'] )
+
+    try:
+        while True:
+            rgps = gps.update()
+            queue.mqttc.publish(MQTT_GPS_TOPIC, json.dumps( rgps ))
+            time.sleep(0.1)
+    except KeyboardInterrupt:
+        print("Good bye!")
+        gps.close()
+        sys.exit(0)
