@@ -60,7 +60,7 @@ if __name__ == "__main__":
     # pprint(args)
 
     gps = GPS(args['--serial'], int(args['--bauds']))
-    if args['--gpx']:
+    if args['--nmea']:
         logging.info("Saving NMEA file with path {0}".format(args['--nmea']))
         gps.gpx_log( args['--nmea'] )
 
