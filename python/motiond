@@ -63,7 +63,9 @@ if __name__ == "__main__":
     try:
         while True:
             rgps = gps.update()
-            queue.mqttc.publish(MQTT_GPS_TOPIC, json.dumps( rgps ))
+            if rgps:
+                queue.mqttc.publish(MQTT_GPS_TOPIC, json.dumps( rgps ))
+
             time.sleep(0.1)
     except KeyboardInterrupt:
         print("Good bye!")

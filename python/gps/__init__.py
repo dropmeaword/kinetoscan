@@ -74,4 +74,8 @@ class GPS:
             with open(self.nmeafilename, 'a+') as f:
                 f.write(line)
 
-        return self.nmea_to_dict( gpsmsg )
+        retval = None
+        if gpsmsg:
+            retval = self.nmea_to_dict( gpsmsg )
+
+        return retval
