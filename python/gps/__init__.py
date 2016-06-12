@@ -48,11 +48,14 @@ class GPS:
             self.mqttc.disconnect()
 
     def update(self):
-        line = self.device.readline()
-        #line = "$GPGGA,001933.799,,,,,0,0,,,M,,M,,*47"
-        gpsmsg = nmea.parse( line ) # parse using library
-        logging.debug("parsed entry {0}".format(line) )
-        logging.debug("-> as: {0}".format(gpsmsg) )
+        try:
+            line = self.device.readline()
+            #line = "$GPGGA,001933.799,,,,,0,0,,,M,,M,,*47"
+            gpsmsg = nmea.parse( line ) # parse using library
+            logging.debug("parsed entry {0}".format(line) )
+            logging.debug("-> as: {0}".format(gpsmsg) )
+        except nmea.ParseError:
+            logging.warning("Failed to parse NMEA line: {0}".format(line))
 
         # from pprint import pprint
         # pprint( json.dumps(gpsmsg) )
