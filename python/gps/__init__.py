@@ -44,8 +44,7 @@ class GPS:
         return retval #json.dumps(retval)
 
     def close(self):
-        if self.mqttc:
-            self.mqttc.disconnect()
+        pass
 
     def update(self):
         gpsmsg = None

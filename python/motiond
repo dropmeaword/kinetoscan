@@ -70,4 +70,7 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("Good bye!")
         gps.close()
+        if queue:
+            queue.mqttc.disconnect()
+
         sys.exit(0)
