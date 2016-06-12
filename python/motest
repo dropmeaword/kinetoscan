@@ -1,0 +1,3 @@
+#!/bin/sh
+
+./motiond --mqtt-host=test.mosquitto.org --mqtt-port=1883 --serial=/dev/ttyAMA0 --bauds=9600
