@@ -8,20 +8,25 @@ class MQTT:
         self.uid   = uid
 
     def on_connect(self, mosq, obj, rc):
-        logging.info("rc: "+str(rc))
+        pass
+        #logging.info("rc: "+str(rc))
 
     def on_message(self, mosq, obj, msg):
-        sticks[0].set_color(hex="#"+str(msg.payload))
-        logging.info(msg.topic+" "+str(msg.payload))
+        pass
+        #sticks[0].set_color(hex="#"+str(msg.payload))
+        #logging.info(msg.topic+" "+str(msg.payload))
 
     def on_publish(self, mosq, obj, mid):
-        logging.info("mid: "+str(mid))
+        pass
+        #logging.info("mid: "+str(mid))
 
     def on_subscribe(self, mosq, obj, mid, granted_qos):
-        logging.info("Subscribed: "+str(mid)+" "+str(granted_qos))
+        pass
+        #logging.info("Subscribed: "+str(mid)+" "+str(granted_qos))
 
     def on_log(self, mosq, obj, level, string):
-        logging.info(string)
+        pass
+        #logging.info(string)
 
     def connect(self, mqtthost, mqttport):
         if not self.uid:
