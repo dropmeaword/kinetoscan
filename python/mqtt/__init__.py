@@ -37,4 +37,4 @@ class MQTT:
         self.mqttc.on_subscribe = self.on_subscribe
         logging.info("Connecting to mosquitto {0}:{1}".format(mqtthost, mqttport))
         self.mqttc.connect(mqtthost, mqttport, 60)
-        self.mqttc.subscribe(MQTT_TOPIC, 0)
+        #self.mqttc.subscribe(MQTT_TOPIC, 0)
