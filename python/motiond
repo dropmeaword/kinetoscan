@@ -28,7 +28,7 @@ from sensors.gps import GPS
 import sensors.mpu9250 as mpu
 from sensors.bmp180 import BMP085
 from mqtt import MQTT
-from imu import Fusion
+from imu.fusion import Fusion
 
 MQTT_GPS_TOPIC = "kinetoscan/gps"
 MQTT_IMU_TOPIC = "kinetoscan/imu"
