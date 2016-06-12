@@ -73,4 +73,4 @@ class GPS:
             with open(self.nmeafilename, 'a+') as f:
                 f.write(line)
 
-        return self.mnea_to_dict( gpsmsg )
+        return self.nmea_to_dict( gpsmsg )
