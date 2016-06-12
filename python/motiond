@@ -24,10 +24,10 @@ from docopt import docopt
 import logging
 import json
 
-from gps import GPS
-from mqtt import MQTT
-from sensors.grove_i2c_barometic_sensor_BMP180 import BMP085
+from sensors.gps import GPS
 import sensors.mpu9250 as mpu
+from sensors.bmp180 import BMP085
+from mqtt import MQTT
 from imu import Fusion
 
 MQTT_GPS_TOPIC = "kinetoscan/gps"
