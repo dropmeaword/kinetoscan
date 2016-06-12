@@ -1,5 +1,6 @@
 import pynmea2 as nmea
 import logging
+import serial
 
 class GPS:
     def __init__(self, port, baudrate):
