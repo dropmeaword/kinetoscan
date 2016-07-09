@@ -29,5 +29,6 @@ class KinetoIMU {
     
     void init();
     void update();
+    void print();
 };
 
