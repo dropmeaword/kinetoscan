@@ -115,10 +115,10 @@ void gps_print() {
   Serial.print("GPS,");
   Serial.print((int)GPS.fix);
   Serial.print(","); 
-  Serial.println((int)GPS.fixquality); 
+  Serial.print((int)GPS.fixquality); 
   if (GPS.fix) {
     Serial.print(","); 
-    Serial.println((int)GPS.satellites);
+    Serial.print((int)GPS.satellites);
     Serial.print(","); 
     Serial.print(GPS.latitude, 4); Serial.print(GPS.lat);
     Serial.print(","); 
@@ -127,13 +127,14 @@ void gps_print() {
     Serial.print(GPS.latitudeDegrees, 4);
     Serial.print(","); 
     Serial.println(GPS.longitudeDegrees, 4);
-    
-    Serial.print("Speed (knots): "); 
-    Serial.println(GPS.speed);
-    Serial.print("Angle: "); 
-    Serial.println(GPS.angle);
-    Serial.print("Altitude: "); 
+    Serial.print(","); 
     Serial.println(GPS.altitude);
+    
+//    Serial.print("Speed (knots): "); 
+//    Serial.println(GPS.speed);
+//    Serial.print("Angle: "); 
+//    Serial.println(GPS.angle);
+//    Serial.print("Altitude: "); 
   }
 }
 
