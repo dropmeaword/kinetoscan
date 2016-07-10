@@ -1,11 +1,13 @@
 #include "config.h"
 #include "gps.h"
 #include "imu.h"
-#include <SimpleTimer.h>
+#include "SimpleTimer.h"
 
 KinetoIMU imu;
 
-uint32_t timer = millis();
+SimpleTimer t1, t2;
+
+//uint32_t timer = millis();
 
 void setup() {
   // external serial
@@ -20,6 +22,9 @@ void setup() {
   delay(5);
   imu.init();
   delay(5);
+
+  t1.setInterval(2000, gps_print_latlon);
+  t2.setInterval(4000, gps_print_quality);
 }
 
 // why does the imu read nan?
@@ -42,17 +47,20 @@ void loop() {
 
     gps_update();
 
-  // print GPS status every 2000ms
-  if (timer > millis())  timer = millis();
-
-  if (millis() - timer > 2000) { 
-    timer = millis();
-    gps_print_latlon();
-  }
-
-//  if (millis() - timer > 4000) { 
+    t1.run();
+    t2.run();
+    
+//  // print GPS status every 2000ms
+//  if (timer > millis())  timer = millis();
+//
+//  if (millis() - timer > 2000) { 
 //    timer = millis();
-//    gps_print_quality();
+//    gps_print_latlon();
 //  }
+//
+////  if (millis() - timer > 4000) { 
+////    timer = millis();
+////    gps_print_quality();
+////  }
 
 }
