@@ -14,9 +14,6 @@ void KinetoIMU::init() {
 
 void KinetoIMU::update() {
       my3IMU.getYawPitchRoll(ypr);
-}
-
-void KinetoIMU::print() {
   Serial.print("IMU,");
   Serial.print(ypr[0]);
   Serial.print(",");
@@ -24,5 +21,8 @@ void KinetoIMU::print() {
   Serial.print(",");
   Serial.print(ypr[2]);
   Serial.println("");
+}
+
+void KinetoIMU::print() {
 }
 

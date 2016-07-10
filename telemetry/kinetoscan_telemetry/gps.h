@@ -8,7 +8,7 @@ Adafruit_GPS GPS(&mySerial);
 
 // Set GPSECHO to 'false' to turn off echoing the GPS data to the Serial console
 // Set to 'true' if you want to debug and listen to the raw GPS sentences. 
-#define GPSECHO  true
+#define GPSECHO  false
 
 // this keeps track of whether we're using the interrupt
 // off by default!
@@ -111,30 +111,50 @@ void gps_update()
 //  }
 //}
 
-void gps_print() {
+/*
   Serial.print("GPS,");
+//  Serial.print((int)GPS.fix);
+//  Serial.print(","); 
+//  Serial.print((int)GPS.fixquality); 
+//  if (GPS.fix) {
+//    Serial.print(","); 
+//    Serial.print((int)GPS.satellites);
+//    Serial.print(","); 
+//    Serial.print(GPS.latitude, 4); 
+//    Serial.print(GPS.lat);
+//    Serial.print(","); 
+//    Serial.print(GPS.longitude, 4); 
+//    Serial.print(GPS.lon);
+//    Serial.print(","); 
+    Serial.print(GPS.latitudeDegrees, 4);
+    Serial.print(","); 
+    Serial.print(GPS.longitudeDegrees, 4);
+//    Serial.print(","); 
+//    Serial.println(GPS.altitude);
+//    Serial.flush();
+    
+    Serial.print(","); 
+    Serial.print(GPS.speed);
+    Serial.print(","); 
+    Serial.println(GPS.angle);
+//  }
+
+ */
+void gps_print_latlon() {
+  Serial.print("GPSL,");
+  Serial.print(GPS.latitudeDegrees, 4);
+  Serial.print(","); 
+  Serial.println(GPS.longitudeDegrees, 4);
+}
+
+void gps_print_quality() {
+  Serial.print("GPSQ,");
   Serial.print((int)GPS.fix);
   Serial.print(","); 
   Serial.print((int)GPS.fixquality); 
-  if (GPS.fix) {
-    Serial.print(","); 
-    Serial.print((int)GPS.satellites);
-    Serial.print(","); 
-    Serial.print(GPS.latitude, 4); Serial.print(GPS.lat);
-    Serial.print(","); 
-    Serial.print(GPS.longitude, 4); Serial.println(GPS.lon);
-    Serial.print(","); 
-    Serial.print(GPS.latitudeDegrees, 4);
-    Serial.print(","); 
-    Serial.println(GPS.longitudeDegrees, 4);
-    Serial.print(","); 
-    Serial.println(GPS.altitude);
-    
-//    Serial.print("Speed (knots): "); 
-//    Serial.println(GPS.speed);
-//    Serial.print("Angle: "); 
-//    Serial.println(GPS.angle);
-//    Serial.print("Altitude: "); 
-  }
+  Serial.print(","); 
+  Serial.println((int)GPS.satellites);
 }
+
+
 
