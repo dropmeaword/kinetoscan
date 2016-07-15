@@ -13,14 +13,16 @@ void KinetoIMU::init() {
 }
 
 void KinetoIMU::update() {
-      my3IMU.getYawPitchRoll(ypr);
+  my3IMU.getYawPitchRoll(ypr);
   Serial.print("IMU,");
   Serial.print(ypr[0]);
   Serial.print(",");
   Serial.print(ypr[1]);
   Serial.print(",");
   Serial.print(ypr[2]);
-  Serial.println("");
+  Serial.print("\r\n");
+  //Serial.println("");
+  //Serial.flush();
 }
 
 void KinetoIMU::print() {

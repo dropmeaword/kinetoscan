@@ -49,18 +49,4 @@ void loop() {
 
     t1.run();
     t2.run();
-    
-//  // print GPS status every 2000ms
-//  if (timer > millis())  timer = millis();
-//
-//  if (millis() - timer > 2000) { 
-//    timer = millis();
-//    gps_print_latlon();
-//  }
-//
-////  if (millis() - timer > 4000) { 
-////    timer = millis();
-////    gps_print_quality();
-////  }
-
 }
