@@ -42,8 +42,10 @@ void setup() {
 // output is too slow and interferes with the reading of the imu
 // seems like it could be a memory corruption from the interrrupt?
 void loop() {
-    imu.update();
-    imu.print();
+//    imu.update();
+//    imu.print();
+
+    serialPump();
 
     gps_update();
 
