@@ -4,7 +4,7 @@
 #include "SimpleTimer.h"
 
 KinetoIMU imu;
-
+char cmd;
 SimpleTimer t1, t2;
 
 //uint32_t timer = millis();
@@ -50,3 +50,24 @@ void loop() {
     t1.run();
     t2.run();
 }
+
+char serial_busy_wait() {
+  while(!Serial.available()) {
+    ; // do nothing until ready
+  }
+  return Serial.read();
+}
+
+void serialPump() {
+    if(Serial.available()) {
+    cmd = Serial.read();
+      if(cmd == 'q') {
+        uint8_t count = serial_busy_wait();
+        for(uint8_t i=0; i<count; i++) {
+          imu.update();
+          imu.print();
+        }
+      } // if
+    } //if
+} // serialPump
+

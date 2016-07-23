@@ -18,7 +18,8 @@ class KinetoIMU {
   public:
     //int raw_values[9];
     //char str[512];
-    float ypr[3]; // yaw pitch roll
+    //float ypr[3]; // yaw pitch roll
+    float q[4];  // quaternion
     //float val[9];
     
     // Set the FreeIMU object
