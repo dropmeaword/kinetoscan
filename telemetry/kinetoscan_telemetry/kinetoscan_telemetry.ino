@@ -53,19 +53,19 @@ void loop() {
     t2.run();
 }
 
-char serial_busy_wait() {
+int serial_busy_wait() {
   while(!Serial.available()) {
     ; // do nothing until ready
   }
-  return Serial.read();
+  return Serial.parseInt(); //read();
 }
 
 void serialPump() {
     if(Serial.available()) {
     cmd = Serial.read();
-      if(cmd == 'q') {
-        uint8_t count = serial_busy_wait();
-        for(uint8_t i=0; i<count; i++) {
+      if(cmd == 'R') { // wait to receive an 'R' command followed by a number of loops
+        int count = serial_busy_wait();
+        for(int i=0; i < count; i++) {
           imu.update();
           imu.print();
         }

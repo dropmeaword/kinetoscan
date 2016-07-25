@@ -14,10 +14,12 @@ void KinetoIMU::init() {
 
 void serialFloatArray(float * arr, int length) {
   Serial.print(arr[0]);
+  Serial.print(",");
   Serial.print(arr[1]);
+  Serial.print(",");
   Serial.print(arr[2]);
+  Serial.print(",");
   Serial.print(arr[3]);
-  Serial.println();
 //  for(int i=0; i<length; i++) {
 //    //printHexFloat(arr[i]);
 //    Serial.print(arr[i]);
