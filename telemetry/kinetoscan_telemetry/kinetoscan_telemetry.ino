@@ -5,7 +5,7 @@
 
 KinetoIMU imu;
 char cmd;
-SimpleTimer t1, t2;
+//SimpleTimer t1, t2;
 
 //uint32_t timer = millis();
 
@@ -23,8 +23,8 @@ void setup() {
   imu.init();
   delay(5);
 
-  t1.setInterval(2000, gps_print_latlon);
-  t2.setInterval(4000, gps_print_quality);
+//  t1.setInterval(2000, gps_print_latlon);
+//  t2.setInterval(4000, gps_print_quality);
 }
 
 // why does the imu read nan?
@@ -45,12 +45,12 @@ void loop() {
 //    imu.update();
 //    imu.print();
 
-    serialPump();
 
     gps_update();
+    serialPump();
 
-    t1.run();
-    t2.run();
+//    t1.run();
+//    t2.run();
 }
 
 int serial_busy_wait() {
@@ -62,14 +62,21 @@ int serial_busy_wait() {
 
 void serialPump() {
     if(Serial.available()) {
-    cmd = Serial.read();
-      if(cmd == 'R') { // wait to receive an 'R' command followed by a number of loops
-        int count = serial_busy_wait();
+      cmd = Serial.read();
+      if( (cmd == 'R') || (cmd == 'r') ) {
+        int count = 16; //serial_busy_wait();
         for(int i=0; i < count; i++) {
           imu.update();
           imu.print();
-        }
+        } // for
+      } else if( (cmd == 'Q') || (cmd == 'q') ) {
+//        gps_print_latlon();
+        gps_print_quality();
+      } else if( (cmd == 'G') || (cmd == 'g') ) {
+        gps_print_latlon();
+//        gps_print_quality();
       } // if
+
     } //if
 } // serialPump
 
